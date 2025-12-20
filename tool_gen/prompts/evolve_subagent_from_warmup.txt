@@ -1,0 +1,61 @@
+You are improving a subagent's prompts/config for a software engineering (SWE) automation system, based on recent run trajectories. The subagent is used by an AI main agent to address code issues.
+
+CONTEXT
+- You will receive trajectory summaries below, starting with the main agent's trajectory, followed by any subagent trajectories in call order.
+- Each summary shows what the agent did, what was observed, and how far it progressed.
+
+GOAL
+Analyze the subagent's performance and suggest improvements to make it:
+1. More discoverable by the main agent (when appropriate)
+2. More reliable in its behavior
+3. More useful in its output
+
+ANALYSIS FRAMEWORK
+Consider these questions:
+- Did the main agent discover and use the subagent when it should have?
+- Did the subagent behave as expected and return useful information?
+- Were there missed opportunities or inefficient behaviors?
+
+IMPROVEMENT TYPES
+Focus on one or more of these areas:
+1. **docstring**: Make the subagent easier for the main agent to discover and choose appropriately. CRITICAL: Make sure to include "[subagent]" at the beginning of the docstring.
+2. **context_description**: Improve the description of the 'context' argument (the only argument) to be clearer and more helpful
+3. **instance_template**: Better incorporation of context, clearer framing for each problem instance
+
+Note that the docstring and context_description are visible only to the main agent, while the instance_template is visible only to the subagent.
+Thus, if the subagent was not called, you should not edit instance_template. Similarly, if the only issue is the subagent's trajectory, not how it was called, do not edit docstring or context_description.
+
+PRINCIPLES
+- Make surgical, targeted improvements rather than broad rewrites
+- Preserve existing style and capabilities. Only edit components that need improvement.
+- Focus on clarity, discoverability, and reliability
+- Ensure generality. Avoid repo- or issue-specific assumptions.
+- CRITICAL: DO NOT WRITE ANYTHING SPECIFIC TO THE PARTICULAR CODEBASE, PROJECT, OR DOMAIN.
+
+
+OUTPUT FORMAT
+First, explain your reasoning about what issues you noticed with the provided trajectory and what improvements you're making. Then, output the YAML in a code block. 
+**IMPORTANT**: Only suggest edits when you identify a clear, specific problem. If the entire subagent is working well, use an empty updates dictionary.
+
+Sample outputs:
+
+**When improvements are needed:**
+Explain your reasoning here.
+```yaml
+updates:
+  docstring: "<improved docstring if needed>"
+  context_description: "<improved context argument description if needed>"
+  instance_template: "<improved instance template if needed>"
+```
+
+RULES
+- Only include keys that you intend to change.
+- Start with `updates:` as the top-level key. If there are no updates to make, the value for `updates` should be an empty dictionary.
+- You may update any combination of the three fields (docstring, context_description, instance_template), but only include a field if it needs improvement.
+- No explanations or extra content in the YAML
+- Keep each field concise but complete
+
+HEURISTICS
+- **Discovery issues**: Strengthen docstring with clear use cases and when to invoke
+- **Insufficient context passed to subagent**: Improve context_description with clearer argument explanation
+- **Subagent behavior and output (Incorrect subagent trajectory or return information)**: Improve instance_template with better instructions and output specifications

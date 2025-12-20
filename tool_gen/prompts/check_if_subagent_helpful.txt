@@ -1,0 +1,41 @@
+CONTEXT:
+These trajectories show a software engineering agent trying to fix a bug or implement a feature. The agent can use various tools including subagents (specialized AI assistants) to help solve the problem.
+
+TRAJECTORIES:
+{{TRAJECTORIES}}
+
+TOOL TO ANALYZE: {{TOOL_NAME}}
+
+Your task is to determine if the subagent "{{TOOL_NAME}}" was helpful in this set of trajectories. 
+A tool is considered helpful if:
+1. It was called/invoked by the main agent in the main agent trajectory
+2. It provided useful information, analysis, or insights that contributed to solving the problem
+3. The main agent made progress after using this tool (e.g., identified the issue, made code changes, validated results, etc.)
+4. It completed its task as intended (followed proper analysis process, not just got lucky results)
+
+Look for positive evidence such as:
+- The subagent being called with appropriate parameters
+- The subagent providing insights that led to code changes or problem understanding
+- The main agent referencing or building upon the subagent's output
+- The subagent's output being used in subsequent reasoning or actions
+
+Look for negative evidence such as:
+- The subagent not being called by the main agent, or called incorrectly
+- The subagent providing irrelevant or incorrect information that was not later used
+- The subagent's response was valid but did not move the main agent closer to resolving the problem.
+- The subagent failed to execute properly or had many errors during the its run.
+- The subagent's output appeared correct, but its trajectory did not actually achieve those results (e.g., claimed to test code but just reported all tests passed).
+- The main agent had to call the subagent over and over again to get the proper results.
+- The subagent trajectory was unnecessarily long or verbose, taking many steps to complete its task
+- The main agent trajectory became inefficient due to excessive subagent calls or overly verbose subagent responses
+- The subagent's results did not actually help the main agent make progress in resolve the issue. If a subagent did not contribute to producing the correct patch, e.g. only improved performance, style, or documentation, this is NOT helpful.
+
+Respond with YAML format (exactly):
+```yaml
+helpful: true/false
+reasoning: |
+  Brief explanation of why the tool was or wasn't helpful, including specific evidence from the trajectories
+```
+
+- Always use the block scalar `|` for `reasoning` and indent its text by two spaces.
+- Only respond with the YAML block; no additional text before or after.

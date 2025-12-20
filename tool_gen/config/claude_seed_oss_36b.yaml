@@ -1,0 +1,22 @@
+model_name: "claude-sonnet-4-20250514"
+api_base: "https://api.anthropic.com/v1"
+temperature: 0
+use_rits: false
+max_iterations: 100
+prompt_dir: "tool_gen/prompts"
+template_dir: "tool_gen/templates_seed_oss_36b"
+output_dir: "tool_gen/generated/claude_seed_oss_36b"
+subagent_tool_count: 3
+code_tool_count: 0
+new_tool_theta: 1.0
+resume: true
+batch_size: 12
+
+# Warmup configuration
+warmup_iterations: 4
+
+instances_config:
+  type: "InstancesFromFile"
+  path: "swebench_data/swebench_verified_subset_by_repo_1_each.jsonl"
+  slice: ":12"
+  shuffle: true 

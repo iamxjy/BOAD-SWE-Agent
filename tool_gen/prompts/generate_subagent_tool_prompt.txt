@@ -1,0 +1,51 @@
+You are an expert at designing custom tools for SWE-agent, an autonomous agent that can resolve code issues in large repositories.
+
+YOUR TASK
+Invent a subagent tool for SWE-agent. 
+- The subagent should enable the main agent to better perform its task of automatically resolving code issues in large static repositories.
+- Design for broad applicability across the full workflow. Create broad subagents that are can solve an entire step of the pipeline, such as:
+  - code localization
+  - reproducing issues and running scripts/tests
+  - code editing/patching
+  - code testing
+  Start with broad tools that can cover an entier step.
+- The subagents created should ONLY be focused on correctness of the final patch (e.g. style, complexity of code does not matter)
+- PRIORITIZE TOKEN EFFICIENCY: Design concise, focused subagents that use minimal tokens. Avoid verbose explanations or redundant information that wastes tokens.
+- If you see a subagent that looks good but has bad token efficieny, you may generate a similar subagent with the same function but better implementation.
+- The subagent takes a SINGLE argument that is a string, called "context".
+- BE NOVEL! Think carefully about how to help the main agent perform one of its subtasks. 
+  - Example subagents include localize, patch_editor, or code_tester.
+- Do not create a subagent that overlaps with previous subagents (other than the token efficiency situation).
+- In your reasoning, you must explicitly list which steps the subagent supports (examples: explore, read/search, edit, run, validate) and the expected outputs for each supported step.
+- CRITICAL: Your output should be PLAIN TEXT in valid YAML format (not inside a YAML block), so that it can be directly parsed by pyYAML.
+  - CRITICAL: Output exactly ONE YAML document with the tool under a single key, which is the name of the tool.
+  - The name of the tool should be simple and descriptive.
+  - The docstring for each tool should be comprehensive and describe what the output contains, as well as the state of the repository after the subagent is finished (if files will be edited or not, etc.).
+
+The structure must be exactly as follows:
+Add reasoning here about WHY you design this subgaent...
+```yaml
+tool_name:
+  signature: "tool_name <context>"
+  docstring: docstring: "comprehensive description of this subagent, the output, and the state of repository on completion. Starts with '[subagent]:"
+  arguments:
+    - name: context
+      type: string
+      description: "detailed description of what the context parameter should contain"
+      required: true
+  subagent: true
+```
+
+Sample output:
+To address step 3, it may be useful to have a patch editor subagent. This would go well with previosu subagents and help the main agent more efficiently patch the issue.
+```yaml
+patch_editor:
+  signature: "patch_editor <context>"
+  docstring: "[subagent] Fixes a specific part of code that has errors. Outputs the changes made with reasoning. After calling, the correct changes are already implemented in the repository."
+  arguments:
+    - name: context
+      type: string
+      description: "A string containing the specific file path to make edits in, the lines where edits need to be made, a comprehensive description of the issue with the code (do not assume the subagent has any information about the repository or problem statement), and what to edit."
+      required: true
+  subagent: true
+```

@@ -1,0 +1,129 @@
+You are an expert at writing custom Python tools for SWE-agent to use when automatically patching code in large GitHub repositories. Your goal is to analyze an agent's work log (trajectory) and create a general-purpose Python tool that would have made its task easier.
+
+### INPUT
+
+You will receive a trajectory conversation from a SWE-agent session. It includes messages from the agent (`AGENT`), the environment (`OBSERVATION`), and the final code submission (`SUBMISSION`).
+
+### YOUR PROCESS
+
+1.  **Think:** First, reason through the problem within `<think> ... </think>` tags. Your thinking process must cover:
+    * **Core Obstacle Identification:** Explicitly state the primary, most repetitive, or most time-consuming obstacle the agent faced in the trajectory. Consider if this obstacle is a single inefficient command or a sequence of commands that could be combined. For example: "The agent repeatedly used `find_file` then `view_file` to locate and inspect code. This multi-step workflow is the core obstacle."
+    * **Tool Design:** Based on the identified core obstacle, design a general-purpose tool to solve it. If the obstacle was a workflow, the tool should automate that entire sequence.
+    * **Specifications & Implementation Plan:** Outline the tool's arguments, expected behavior, and implementation method.
+2.  **Generate Tool & Documentation:** After the thinking step, write the complete response, which must include the `TOOL ANALYSIS`, `TOOL SPECIFICATION`, `TOOL DEFINITION (YAML)`, `COMPLETE SOURCE CODE`, and `INSTALL SCRIPT` as specified in the `OUTPUT FORMAT` section.
+
+### TOOL DESIGN PRINCIPLES
+
+* **Balance & Reusability:** Solve the immediate problem, but design the tool to be adaptable to other scenarios.
+* **Configurability:** Use arguments to handle variations.
+* **Focus:** Each tool should have one primary, well-defined purpose.
+* **Efficiency:** Aim to reduce manual steps into a single command.
+* **Usability:** Design intuitive arguments and provide clear, machine-readable output.
+* **Automate Workflows by Combining Tools:** Look for sequences of commands that are frequently used together (e.g., finding a file, then reading it, then modifying it). Design a single, more powerful tool that automates this entire workflow, reducing multiple steps into one.
+* **Identify Core Obstacles & Automate Solutions:** Your primary goal is to identify the most critical, repetitive, or error-prone sequence of actions in the agent's trajectory. Design a tool to automate that specific workflow. For tasks where a reliable system command already exists (e.g., searching text with `grep`), the tool should prefer calling it via `subprocess` instead of reimplementing the logic in Python. For other tasks, pure Python logic is perfectly acceptable.
+
+### OUTPUT FORMAT
+
+Your response must first include your thought process, followed by these five sections in order:
+
+1.  **TOOL ANALYSIS:** A brief analysis of the agent's struggles and how your tool helps. If the tool combines multiple steps, explain what the original workflow was and how the new tool automates it.
+2.  **TOOL SPECIFICATION:** A clear description of the tool's functionality, arguments, and use cases.
+3.  **TOOL DEFINITION (YAML):** A YAML block defining the tool's signature and arguments for agent consumption.
+4.  **COMPLETE SOURCE CODE:** The full Python code for the tool.
+5.  **INSTALL SCRIPT:** A shell script to install any required packages or check for system dependencies. If none are needed, this section should be blank.
+
+### REQUIREMENTS
+
+* The tool must be a command-line executable Python script.
+* Use **Python 3.11+**, with type hints, `pathlib`, and `argparse`.
+* Implement proper argument validation and error handling.
+* Provide clear success/failure feedback (e.g., `SUCCESS: ...` or `ERROR: ...`) and use appropriate exit codes.
+* The YAML definition must follow the specified format.
+* **YAML Signature Format (IMPORTANT):** The `signature` string must only contain the tool's name followed by positional argument placeholders (e.g., `tool_name <required_arg> [<optional_arg>]`). **It must not contain command-line style flags like `--file-path`**. Flags should be defined using the `argument_format` property for each argument.
+* When using `subprocess`, the tool must handle potential errors from the call, capturing `stdout` and `stderr` to provide informative error messages.
+* If the tool requires third-party packages or system utilities, provide the necessary `pip install` or check commands in the `INSTALL SCRIPT` section.
+
+### FINAL REMINDER
+
+* **Focus on Workflows:** The best tools automate multi-step workflows. Analyze the trajectory to find sequences of commands that can be combined into a single, more powerful tool.
+* **YAML Syntax is Strict:** Pay close attention to the provided examples for the `signature` and `argument_format`. The `signature` must *only* contain the tool name and positional argument placeholders, never command-line flags like `--arg`.
+* **Be Smart About Implementation:** Prefer `subprocess` to wrap reliable system commands like `grep`. However, use pure Python logic when it's a better fit for the task, such as parsing structured files or implementing complex custom algorithms.
+
+**Example Install Script:**
+
+```bash
+pip install some-package
+```
+
+**Example YAML Structure:**
+
+```yaml
+tools:
+  generic_tool:
+    signature: "generic_tool <required_arg> [<optional_arg>]"
+    docstring: "A generic tool that takes one required argument and one optional argument with a value."
+    arguments:
+      - name: required_arg
+        type: string
+        description: "A description of the required argument."
+        required: true
+      - name: optional_arg
+        type: string
+        description: "A description of the optional argument that takes a value."
+        required: false
+        argument_format: "--optional-arg {{value}}"
+```
+
+**Example Python Structure:**
+
+```python
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import subprocess
+from pathlib import Path
+
+class ToolName:
+    """A clear, one-sentence description of the tool's purpose."""
+    
+    name = "tool_name"
+    
+    def __init__(self, **kwargs):
+        # Store arguments needed for the tool's operation
+        self.args = kwargs
+    
+    def run(self):
+        # Main tool logic goes here.
+        # Access arguments via self.args, for example: self.args.get('my_arg')
+        # If wrapping a system command, use the 'subprocess' module.
+        # Remember to handle potential errors and return a clear result.
+        return "A string describing the successful result of the tool's operation."
+
+def main():
+    parser = argparse.ArgumentParser(description=ToolName.__doc__)
+    # Add arguments as needed for the specific tool.
+    args = parser.parse_args()
+    
+    try:
+        tool = ToolName(**vars(args))
+        result = tool.run()
+        print(f"SUCCESS: {result}")
+        sys.exit(0)
+    except Exception as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+Generate the complete tool code and definition based on the provided specification.
+
+**TRAJECTORY CONVERSATION:**
+
+{{TRAJECTORY_SUMMARY}}
+
+Based on this trajectory analysis, identify a tool that would have helped the agent perform better and generate the complete source code, YAML definition, and install script for that tool. The tool should balance solving the immediate problem with being adaptable to similar scenarios in the future.

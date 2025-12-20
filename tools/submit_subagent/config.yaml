@@ -1,0 +1,9 @@
+tools:
+  submit_subagent:
+    signature: "submit_subagent <result>"
+    docstring: "Submits the relevant information found. When submitting using this tool, ensure the result includes all the code/information found throughout the conversation that may be relevant to the task."
+    arguments:
+      - name: result
+        type: string
+        description: "A comprehensive summary from the subagent detailing the findings and results for the task. For each relevant piece of information, include the file name, line number, and corresponding code snippet. Conclude with the current status of the repository and specify whether any modifications were made."
+        required: true

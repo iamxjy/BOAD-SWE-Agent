@@ -1,0 +1,15 @@
+tools:
+  localize:
+    signature: "localize"
+    docstring: "Search for and return all relevant code and files to solve this issue."
+    arguments: []
+    subagent: true
+  dependency_analyzer:
+    signature: "dependency_analyzer <context>"
+    docstring: "Determine dependencies and other code affected by a proposed set of code edits."
+    arguments:
+      - name: context
+        type: string
+        description: "a detailed list of the proposed code edits (with file paths and modifications)"
+        required: true
+    subagent: true

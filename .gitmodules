@@ -1,0 +1,6 @@
+[submodule "SWE-Bench-Live"]
+	path = SWE-Bench-Live
+	url = git@github.com:iamxjy/SWE-Bench-Live.git
+[submodule "SWE-Bench-fork-fork"]
+	path = SWE-Bench-fork-fork
+	url = git@github.com:iamxjy/SWE-Bench-Verified.git

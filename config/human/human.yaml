@@ -1,0 +1,18 @@
+env:
+  deployment:
+    image: python:3.11
+agent:
+  tools:
+    env_variables:
+      WINDOW: 100
+      OVERLAP: 2
+    bundles:
+      - path: tools/registry
+      - path: tools/windowed
+      - path: tools/search
+      - path: tools/windowed_edit_linting
+      - path: tools/submit
+    parse_function:
+      type: thought_action
+  model:
+    name: human
