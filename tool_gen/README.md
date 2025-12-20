@@ -14,10 +14,6 @@ This module automates the generation, configuration, and evaluation of tool bund
 - `generated/`: Output directory for generated configs, logs, and results
 - `prompts/`, `templates/`: Prompt and template files for LLM-based generation
 
-## Setup
-1. Set up OpenAI or compatible LLM API (Can use existing V3 on localhost:1004 on mitibm-swe01)
-2. Use swe-agent environment on mitibm-swe01
-
 
 ## Usage
 ### 1. Generate Subagents & Experiments
