@@ -3,8 +3,8 @@ keys.yaml
 .vscode/**
 .cursor/
 cov.xml
-trajectories/**
-!trajectories/demonstrations/**
+trajectories/*
+!trajectories/demonstrations/
 data/**
 *.env
 !tools/*
