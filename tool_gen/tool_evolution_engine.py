@@ -23,12 +23,11 @@ from main_agent_generator import MainAgentGenerator
 from sweagent.run.batch_instances import AbstractInstanceSource, CustomSingleInstanceSource, CustomBatchInstanceSource
 from instance_sampling import sample_single_instance, sample_batch_instances
 from sweagent.utils.config import load_environment_variables
-from sweagent.tool_generation_chaos.core.tool_generator import ToolGenerator
 from experiment_result import ExperimentResult
 from experiment import Experiment
 from tools import Tool, ToolArchive
 from warmup import WarmupEngine, WarmupConfig
-from bilevel.trajectory import Trajectory
+from utils import Trajectory
 from trajectory_processor import format_trajectories
 from utils import get_traj_paths, extract_yaml_from_response
 
@@ -139,13 +138,13 @@ class EvolutionEngine:
         )
         self.experiments = []
 
-        # initialize the code tool generator
-        self.code_tool_generator = ToolGenerator(
-            client=self.client,
-            prompt_path=self.prompt_dir / "generate_tool_code_prompt.txt",
-            model=self.model_name,
-            base_dir=self.output_dir / "code_tool_archive"
-        )
+        # TODO: initialize the code tool generator (code tool generation is not implemented yet)
+        # self.code_tool_generator = ToolGenerator(
+        #     client=self.client,
+        #     prompt_path=self.prompt_dir / "generate_tool_code_prompt.txt",
+        #     model=self.model_name,
+        #     base_dir=self.output_dir / "code_tool_archive"
+        # )
 
         # initialize the warmup engine
         warmup_config = WarmupConfig(
@@ -303,7 +302,8 @@ class EvolutionEngine:
         traj_path = self._get_rand_trajectory()
         if traj_path is None:
             return None
-        new_tool_dict = self.code_tool_generator.generate_tool_from_trajectory(traj_path)
+        # new_tool_dict = self.code_tool_generator.generate_tool_from_trajectory(traj_path)
+        new_tool_dict = {}
         if not new_tool_dict or not new_tool_dict.get("success"):
             return None
         tool_name = new_tool_dict.get("tool_name") or "diy_tool"
