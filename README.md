@@ -22,11 +22,16 @@ pip install -e .
 
 ### 2. Install SWE-bench Harness
 
-The SWE-bench harnesses are included as git submodules. Initialize and update them:
+The SWE-bench harnesses are included as git submodules. If you didn't clone with `--recursive`, initialize them first:
+
+```bash
+git submodule update --init --recursive
+```
+
+Then install the harnesses:
 
 **For SWE-bench Live:**
 ```bash
-git submodule update --init --recursive
 cd SWE-bench-Live
 pip install -e .
 cd ..
@@ -34,8 +39,7 @@ cd ..
 
 **For SWE-bench Verified:**
 ```bash
-git submodule update --init --recursive
-cd SWE-Bench-fork-fork
+cd SWE-Bench-Verified
 pip install -e .
 cd ..
 ```
