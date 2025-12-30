@@ -1,6 +1,6 @@
-# BOAD: Bandit Optimization for Agent Design
+# BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization
 
-This repository contains the official implementation for **BOAD (Bandit Optimization for Agent Design)**, a framework for automatically discovering hierarchical multi-agent systems for software engineering tasks.
+This repository contains the official implementation for [**BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization**](https://arxiv.org/abs/2512.23631), a framework for automatically discovering hierarchical multi-agent systems for software engineering tasks via bandit optimization.
 
 ## 🚀 Key Features
 
@@ -158,12 +158,20 @@ See `tool_gen/config/claude_seed_oss_36b.yaml` for an example. For detailed conf
 
 ## 📚 Citation
 
-Citation information will be added upon publication.
+If you use BOAD in your research, please cite our paper:
 
-## 🪪 License
-
-MIT. See `LICENSE` for details.
+```bibtex
+@misc{xu2025boad,
+      title={BOAD: Discovering Hierarchical Software Engineering Agents via Bandit Optimization}, 
+      author={Iris Xu and Guangtao Zeng and Zexue He and Charles Jin and Aldo Pareja and Dan Gutfreund and Chuang Gan and Zhang-Wei Hong},
+      year={2025},
+      eprint={2512.23631},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2512.23631}, 
+}
+```
 
 ## 🙏 Acknowledgments
 
-Built on top of [SWE-agent](https://github.com/SWE-agent/SWE-agent) and evaluated using [SWE-bench](https://github.com/SWE-bench/SWE-bench).
+BOAD is built on top of [SWE-agent](https://github.com/SWE-agent/SWE-agent) and evaluated using [SWE-bench](https://github.com/SWE-bench/SWE-bench).
