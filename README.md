@@ -28,7 +28,7 @@ The SWE-bench harnesses are included as git submodules. If you didn't clone with
 git submodule update --init --recursive
 ```
 
-Then install the harnesses:
+Then choose a harness to install:
 
 **For SWE-bench Live:**
 ```bash
