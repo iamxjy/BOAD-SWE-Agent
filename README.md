@@ -174,4 +174,4 @@ If you use BOAD in your research, please cite our paper:
 
 ## 🙏 Acknowledgments
 
-BOAD is built on top of [SWE-agent](https://github.com/SWE-agent/SWE-agent) and evaluated using [SWE-bench](https://github.com/SWE-bench/SWE-bench).
+BOAD is built on top of [SWE-agent](https://swe-agent.com/latest/) and evaluated using [SWE-bench](https://www.swebench.com/) and [SWE-Bench-Live](https://swe-bench-live.github.io/). We thank the original SWE-agent, SWE-bench, and SWE-Bench-Live teams for developing these high-quality tools and benchmarks, and for making them publicly available to the research community.
